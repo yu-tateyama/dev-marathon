@@ -3,7 +3,7 @@ services:
     container_name: nginx
     image: nginx:stable-bullseye
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./src/web:/usr/share/nginx/html
       - ./work:/work
@@ -14,7 +14,7 @@ services:
     container_name: nodejs
     image: node:22-bullseye
     ports:
-      - "1985:1985"
+      - "5922:5922"
     volumes:
       - ./src/node:/app
       - ./work:/work
