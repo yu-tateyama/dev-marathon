@@ -8,7 +8,7 @@
   <h1>顧客詳細</h1>
 
   <p>
-    <a href="/customer/list.html">顧客一覧へ戻る</a>
+    <a href="list.html">顧客一覧へ戻る</a>
   </p>
 
   <dl>
@@ -48,7 +48,7 @@
 
     if (!customerId) {
       alert("顧客IDが指定されていません。");
-      location.href = "/customer/list.html";
+      location.href = "list.html";
     }
 
     async function loadCustomer() {
@@ -63,7 +63,7 @@
       document.getElementById("created_date").textContent = customer.created_date;
       document.getElementById("updated_date").textContent = customer.updated_date;
 
-      document.getElementById("updateLink").href = `/customer/update.html?id=${customer.customer_id}`;
+      document.getElementById("updateLink").href = `update.html?id=${customer.customer_id}`;
     }
 
     document.getElementById("deleteButton").addEventListener("click", async () => {
@@ -79,7 +79,7 @@
 
       if (result.success) {
         alert("削除しました。");
-        location.href = "/customer/list.html";
+        location.href = "list.html";
       } else {
         alert("削除に失敗しました。");
       }

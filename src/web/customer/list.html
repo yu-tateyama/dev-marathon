@@ -8,8 +8,8 @@
   <h1>顧客一覧</h1>
 
   <p>
-    <a href="/">ホーム</a> |
-    <a href="/customer/add.html">顧客登録</a>
+    <a href="../index.html">ホーム</a> |
+    <a href="add.html">顧客登録</a>
   </p>
 
   <table border="1">
@@ -41,7 +41,7 @@
         tr.innerHTML = `
           <td>${customer.customer_id}</td>
           <td>
-            <a href="/customer/detail.html?id=${customer.customer_id}">
+            <a href="detail.html?id=${customer.customer_id}">
               ${customer.company_name}
             </a>
           </td>

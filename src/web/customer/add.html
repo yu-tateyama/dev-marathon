@@ -31,7 +31,7 @@
     <button type="submit">確認</button>
   </form>
 
-  <p><a href="/customer/list.html">顧客一覧へ</a></p>
+  <p><a href="list.html">顧客一覧へ</a></p>
 
   <script>
     document.getElementById("customerForm").addEventListener("submit", (event) => {
@@ -46,7 +46,7 @@
       };
 
       sessionStorage.setItem("pendingCustomer", JSON.stringify(customer));
-      location.href = "/customer/add-confirm.html";
+      location.href = "add-confirm.html";
     });
   </script>
 </body>

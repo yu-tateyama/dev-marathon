@@ -43,10 +43,10 @@
 
     if (!customerId) {
       alert("顧客IDが指定されていません。");
-      location.href = "/customer/list.html";
+      location.href = "list.html";
     }
 
-    document.getElementById("detailLink").href = `/customer/detail.html?id=${customerId}`;
+    document.getElementById("detailLink").href = `detail.html?id=${customerId}`;
 
     async function loadCustomer() {
       const response = await fetch(`${config.apiUrl}/customer/${customerId}`);
@@ -81,7 +81,7 @@
 
       if (result.success) {
         alert("更新しました。");
-        location.href = `/customer/detail.html?id=${customerId}`;
+        location.href = `detail.html?id=${customerId}`;
       } else {
         alert("更新に失敗しました。");
       }

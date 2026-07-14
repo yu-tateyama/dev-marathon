@@ -40,7 +40,7 @@
 
     if (!customer) {
       alert("登録する顧客情報がありません。入力画面に戻ります。");
-      location.href = "/customer/add.html";
+      location.href = "add.html";
     }
 
     document.getElementById("companyName").textContent = customer.companyName;
@@ -62,7 +62,7 @@
       if (result.success) {
         sessionStorage.removeItem("pendingCustomer");
         alert("顧客情報を登録しました。");
-        location.href = "/customer/list.html";
+        location.href = "list.html";
       } else {
         alert("登録に失敗しました。");
       }
