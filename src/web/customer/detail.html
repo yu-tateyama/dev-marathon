@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>顧客詳細</title>
+</head>
+<body>
+  <h1>顧客詳細</h1>
+
+  <p>
+    <a href="list.html">顧客一覧へ戻る</a>
+  </p>
+
+  <dl>
+    <dt>ID</dt>
+    <dd id="customer_id"></dd>
+
+    <dt>会社名</dt>
+    <dd id="company_name"></dd>
+
+    <dt>業種</dt>
+    <dd id="industry"></dd>
+
+    <dt>連絡先</dt>
+    <dd id="contact"></dd>
+
+    <dt>所在地</dt>
+    <dd id="location"></dd>
+
+    <dt>作成日時</dt>
+    <dd id="created_date"></dd>
+
+    <dt>更新日時</dt>
+    <dd id="updated_date"></dd>
+  </dl>
+
+  <p>
+    <a id="updateLink">編集する</a>
+  </p>
+
+  <button id="deleteButton">削除する</button>
+
+  <script type="module">
+    import config from "../config.js";
+
+    const params = new URLSearchParams(location.search);
+    const customerId = params.get("id");
+
+    if (!customerId) {
+      alert("顧客IDが指定されていません。");
+      location.href = "list.html";
+    }
+
+    async function loadCustomer() {
+      const response = await fetch(`${config.apiUrl}/customer/${customerId}`);
+      const customer = await response.json();
+
+      document.getElementById("customer_id").textContent = customer.customer_id;
+      document.getElementById("company_name").textContent = customer.company_name;
+      document.getElementById("industry").textContent = customer.industry;
+      document.getElementById("contact").textContent = customer.contact;
+      document.getElementById("location").textContent = customer.location;
+      document.getElementById("created_date").textContent = customer.created_date;
+      document.getElementById("updated_date").textContent = customer.updated_date;
+
+      document.getElementById("updateLink").href = `update.html?id=${customer.customer_id}`;
+    }
+
+    document.getElementById("deleteButton").addEventListener("click", async () => {
+      if (!confirm("削除していいですか?")) {
+        return;
+      }
+
+      const response = await fetch(`${config.apiUrl}/customer/${customerId}`, {
+        method: "DELETE"
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("削除しました。");
+        location.href = "list.html";
+      } else {
+        alert("削除に失敗しました。");
+      }
+    });
+
+    loadCustomer();
+  </script>
+</body>
+</html>

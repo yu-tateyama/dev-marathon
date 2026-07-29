@@ -7,7 +7,69 @@
     <!-- Bootstrap CSSの読み込み -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+<body><!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>顧客登録確認</title>
+</head>
 <body>
+  <h1>顧客登録確認</h1>
+
+  <dl>
+    <dt>会社名</dt>
+    <dd id="companyName"></dd>
+
+    <dt>業種</dt>
+    <dd id="industry"></dd>
+
+    <dt>連絡先</dt>
+    <dd id="contact"></dd>
+
+    <dt>所在地</dt>
+    <dd id="location"></dd>
+  </dl>
+
+  <button id="registerButton">登録する</button>
+  <button onclick="history.back()">戻る</button>
+
+  <script type="module">
+    import config from "../config.js";
+
+    const customer = JSON.parse(sessionStorage.getItem("pendingCustomer"));
+
+    if (!customer) {
+      alert("登録する顧客情報がありません。入力画面に戻ります。");
+      location.href = "add.html";
+    }
+
+    document.getElementById("companyName").textContent = customer.companyName;
+    document.getElementById("industry").textContent = customer.industry;
+    document.getElementById("contact").textContent = customer.contact;
+    document.getElementById("location").textContent = customer.location;
+
+    document.getElementById("registerButton").addEventListener("click", async () => {
+      const response = await fetch(`${config.apiUrl}/add-customer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customer)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        sessionStorage.removeItem("pendingCustomer");
+        alert("顧客情報を登録しました。");
+        location.href = "list.html";
+      } else {
+        alert("登録に失敗しました。");
+      }
+    });
+  </script>
+</body>
+</html>
     <div class="container mt-5">
         <!-- ここにHTMLを書く -->
     </div>

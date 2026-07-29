@@ -1,22 +1,93 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>案件情報入力</title>
-    <!-- Bootstrap CSSの読み込み -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>顧客更新</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <!-- ここにHTMLを書く -->
+  <h1>顧客情報を編集してください</h1>
+
+  <form id="updateForm">
+    <div>
+      <label>会社名:</label>
+      <input type="text" name="companyName" id="companyName" required>
     </div>
-    <script type="module">
-        <!-- ここにJSを書く -->
-    </script>
-    <!-- BootstrapのJavaScriptの読み込み -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <div>
+      <label>業種:</label>
+      <input type="text" name="industry" id="industry" required>
+    </div>
+
+    <div>
+      <label>連絡先:</label>
+      <input type="text" name="contact" id="contact" required>
+    </div>
+
+    <div>
+      <label>所在地:</label>
+      <input type="text" name="location" id="location" required>
+    </div>
+
+    <button type="submit">更新する</button>
+  </form>
+
+  <p>
+    <a id="detailLink">詳細へ戻る</a>
+  </p>
+
+  <script type="module">
+    import config from "../config.js";
+
+    const params = new URLSearchParams(location.search);
+    const customerId = params.get("id");
+
+    if (!customerId) {
+      alert("顧客IDが指定されていません。");
+      location.href = "list.html";
+    }
+
+    document.getElementById("detailLink").href = `detail.html?id=${customerId}`;
+
+    async function loadCustomer() {
+      const response = await fetch(`${config.apiUrl}/customer/${customerId}`);
+      const customer = await response.json();
+
+      document.getElementById("companyName").value = customer.company_name;
+      document.getElementById("industry").value = customer.industry;
+      document.getElementById("contact").value = customer.contact;
+      document.getElementById("location").value = customer.location;
+    }
+
+    document.getElementById("updateForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const customer = {
+        companyName: formData.get("companyName"),
+        industry: formData.get("industry"),
+        contact: formData.get("contact"),
+        location: formData.get("location")
+      };
+
+      const response = await fetch(`${config.apiUrl}/customer/${customerId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customer)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("更新しました。");
+        location.href = `detail.html?id=${customerId}`;
+      } else {
+        alert("更新に失敗しました。");
+      }
+    });
+
+    loadCustomer();
+  </script>
 </body>
 </html>
